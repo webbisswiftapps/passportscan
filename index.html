@@ -152,7 +152,7 @@
 
         function captureFrame()
         {
-            canvas.getContext('2d').drawImage(video, 0, 0, c.width, canvas.height);
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
             const imgx = canvas.toDataURL("image/png");
             console.log("Frame captured.. Now Processing..");
 
