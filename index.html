@@ -24,7 +24,7 @@
 
 
     <div class="w3-display-container">
-    <canvas id="canvas" class="w3-padding w3-display-middle" style="width:1280px; height:720px; display:none;"></canvas>
+    <canvas id="canvas" class="w3-padding w3-display-middle" style="width:1280px; height:720px;"></canvas>
 
     <div class="w3-row-padding w3-theme">
 
@@ -149,16 +149,14 @@
         {
            console.log("Starting to capture frames!!!");
             captureFrame()
-            setInterval(captureFrame, 15000);
+            setInterval(captureFrame, 3000);
         }
 
 
         function captureFrame()
         {
-            $("#canvas").show();
             canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
             const imgx = canvas.toDataURL("image/png");
-            $("#canvas").hide();
             console.log("Frame captured.. Now Processing..");
 
             processImage(imgx);
