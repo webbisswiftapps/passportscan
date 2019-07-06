@@ -27,8 +27,8 @@
 
     <div class="w3-third w3-section w3-cell">
         <div class="w3-card-4">
-        <!--<canvas id="canvas" style="width:100%; background:#000000;"></canvas> -->
         <video id="video" autoplay style="width:100%"></video>
+        <canvas id="canvas" style="width:100%; background:#000000;"></canvas>
         <div class="w3-container w3-white">
         <h4>Passport Image</h4>
          <button id="snap" class="w3-bar-item w3-button w3-black">Take Picture</button>
@@ -74,7 +74,7 @@
     <script>
                 // Grab elements, create settings, etc.
         var video = document.getElementById('video');
-        var imgCapture;
+        var canvas = document.getElementById('canvas');
         const constraints = {
             video: { facingMode: 'environment' }            
         }
@@ -88,6 +88,7 @@
                 imgCapture = new ImageCapture(mediaStreamTrack);
                 video.srcObject = stream;
                 video.play();
+                setTimeout(startCapturingFrames, 3000);              
             });
         }
 
@@ -95,20 +96,13 @@
         //var canvas = document.getElementById('canvas');
         //var context = canvas.getContext('2d');
         var video = document.getElementById('video');
-        const api_url = "https://accurascan.com/v2/api";
-        
-
-        //Trigger image from file
-        document.getElementById("snap").addEventListener("click", function(e){
-           takePhoto();
-        });
+    
 
         // Process Image
-        function processImage()
+        function processImage(convertedImg)
         {
               
-            var convertedImage = Image();
-
+            
             const api_url = "/passscan/api.php";
             const data = { card_type:1, scan_image_base64: convertedImg};
 
@@ -145,36 +139,30 @@
             });
         }
         
-
+        var interval;
 
         //converts file url to an image and draws it to the canvas
-        function createImageFromFile(fr){
-            var img = new Image();
-            img.onload = imageLoadedFromFile;
-            img.src = fr.result;
-
-            console.log(img);
+        function startCapturingFrames()
+        {
+           console.log("Starting to capture frames!!!");
+            captureFrame()
+            setInterval(captureFrame, 15000);
         }
 
-        function imageLoadedFromFile(img){
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        function captureFrame()
+        {
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imgx = canvas.toDataURL("image/png");
+            console.log("Frame captured.. Now Processing..");
+
+            processImage(imgx);
         }
 
         function hasGetUserMedia() {
             return !!(navigator.mediaDevices &&
                 navigator.mediaDevices.getUserMedia);
         }
-        
-        
-        func takePhoto(){
-            imageCapture.takePhoto().then(blob =>{
-                let url = window.URL.createObjectURL(blob);
-                console.log(url);
-            })
-            .catch(error);
-        }
-
-
 
         $(document).ready(function(){
                 if(hasGetUserMedia()) {
