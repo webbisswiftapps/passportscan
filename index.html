@@ -116,8 +116,7 @@
                 // Grab elements, create settings, etc.
         var video = document.getElementById('video');
         const constraints = {
-            video:true
-            
+            video: { facingMode: "environment" }            
         }
 
         // Get access to the camera!
