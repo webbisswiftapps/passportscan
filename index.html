@@ -103,7 +103,7 @@
         {
               
             
-            const api_url = "/passscan/api.php";
+            const api_url = "https://accurascan.com/v2/api";
             const data = { card_type:1, scan_image_base64: convertedImg};
 
             $("#waiting").hide();
@@ -116,6 +116,9 @@
             $.ajax({
                 url: api_url,
                 type: 'POST',
+                headers:{
+                    'Api-Key':'15610306389qH4ll3CJ8cBuo5zFlSEbDU1cIBHn9yEeLRgwd5R'
+                },
                 data: data,
                 dataType: 'json',
                 success: function (data) {
