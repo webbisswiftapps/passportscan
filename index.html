@@ -216,9 +216,10 @@
         $(document).ready(function(){
                 if(hasGetUserMedia()) {
                     // Good to go!\
-                    alert("getUserMedia() is supported!! Woohoo!")
+                   // alert("getUserMedia() is supported!! Woohoo!")
+                    console.log("getUserMedia() is supported on this device!");
                 } else {
-                    alert('getUserMedia() is not supported by your browser');
+                    alert('Camera access is not supported by your browser');
                 }
         });
     
