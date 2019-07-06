@@ -74,6 +74,7 @@
     <script>
                 // Grab elements, create settings, etc.
         var video = document.getElementById('video');
+        var imgCapture;
         const constraints = {
             video: { facingMode: 'environment' }            
         }
@@ -83,6 +84,8 @@
             // Not adding `{ audio: true }` since we only want video now
             navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
                 //video.src = window.URL.createObjectURL(stream);
+                let mediaStreamTrack = stream.getVideoTracks()[0];
+                imgCapture = new ImageCapture(mediaStreamTrack);
                 video.srcObject = stream;
                 video.play();
             });
@@ -97,7 +100,7 @@
 
         //Trigger image from file
         document.getElementById("snap").addEventListener("click", function(e){
-           
+           takePhoto();
         });
 
         // Process Image
@@ -161,6 +164,16 @@
             return !!(navigator.mediaDevices &&
                 navigator.mediaDevices.getUserMedia);
         }
+        
+        
+        func takePhoto(){
+            imageCapture.takePhoto().then(blob =>{
+                let url = window.URL.createObjectURL(blob);
+                console.log(url);
+            })
+            .catch(error);
+        }
+
 
 
         $(document).ready(function(){
