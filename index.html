@@ -66,6 +66,32 @@
             <td>Document#</td>
             <td id="pdn"></td>
             </tr>
+            
+            <tr>
+            <td>Country</td>
+            <td id="pcountry"></td>
+            </tr>
+            
+            <tr>
+            <td>Gender</td>
+            <td id="pgen"></td>
+            </tr>
+            
+            <tr>
+            <td>Date Of Birth</td>
+            <td id="pdob"></td>
+            </tr>
+            
+             <tr>
+            <td>Date Of Expiry</td>
+            <td id="pdob"></td>
+            </tr>
+            
+            <tr>
+            <td>Other ID</td>
+            <td id="poth"></td>
+            </tr>
+
         </table>
         </p>
             
@@ -140,7 +166,13 @@
                         $("#pname").text(dx.given_names);
                         $("#psname").text(dx.surname);
                         $("#pdn").text(dx.document_no);
+                        $("#pcountry").text(dx.country);
+                        $("#pgen").text(dx.sex);
+                        $("#pdob").text(dx['date of birth']);
+                        $("#pdoe").text(dx['date of expiry']);
+                        $("#poth").text(dx['other id']);
                         
+
                     }else{
                         $("#error").show();
                         $("#results").hide();
