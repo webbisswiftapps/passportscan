@@ -24,7 +24,6 @@
 
 
     <div class="w3-display-container">
-    <canvas id="canvas" class="w3-padding w3-display-middle" style="width:1280px; height:720px;"></canvas>
 
     <div class="w3-row-padding w3-theme">
 
@@ -34,7 +33,11 @@
         <video id="video" autoplay style="width:100%"></video>
         <div class="w3-container w3-white">
         <h4>Passport Image</h4>
-         <button id="snap" class="w3-bar-item w3-button w3-black">Take Picture</button>
+
+         <button id="xsnap" class="w3-bar-item w3-button w3-black" onclick="captureFrameAndProcess()">Take Picture</button>
+         <canvas id="canvas"  style="width:1280px; height:720px;"></canvas> 
+
+    
 
         <p id="waiting"><span><i class="w3-large fa fa-paperclip"></i> Waiting for image to process...</span></p>
         <p id="processing"><span><i class="w3-large w3-spin fa fa-refresh"></i> Processing...</span></p>
@@ -95,28 +98,6 @@
             });
         }
 
-                // Elements for taking the snapshot
-        //var canvas = document.getElementById('canvas');
-        //var context = canvas.getContext('2d');
-        var video = document.getElementById('video');
-    
-        
-        $("#snap").click(function(){
-            
-            imgCapture.grabFrame()
-            .then(function(bitmap){
-               console.log('Grabbed frame:', imageBitmap);
-                canvas.width = imageBitmap.width;
-                canvas.height = imageBitmap.height;
-                canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
-                //canvas.classList.remove('hidden');
-                
-            }).catch(function(error){
-               console.log('grabFrame() error: ', error);
-            });
-            
-        });
-
         // Process Image
         function processImage(convertedImg)
         {
@@ -161,7 +142,7 @@
         var interval;
 
         //converts file url to an image and draws it to the canvas
-        function startCapturingFrames()
+        /*function startCapturingFrames()
         {
            console.log("Starting to capture frames!!!");
             captureFrame()
@@ -176,18 +157,39 @@
             console.log("Frame captured.. Now Processing..");
 
             processImage(imgx);
-        }
+        }*/
 
         function hasGetUserMedia() {
             return !!(navigator.mediaDevices &&
                 navigator.mediaDevices.getUserMedia);
         }
 
+            function captureFrameAndProcess(){
+                        console.log("Trying to capture current image frame")
+                        imgCapture.grabFrame()
+                        .then(function(imageBitmap){
+                            console.log('Grabbed frame:', imageBitmap);
+                            canvas.width = imageBitmap.width;
+                            canvas.height = imageBitmap.height;
+                            canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                            //canvas.classList.remove('hidden');
+
+                            var imgx = canvas.toDataURL("image/png");
+                            processImage(imgx);
+                            
+                        }).catch(function(error){
+                        console.log('grabFrame() error: ', error);
+                        });
+                        
+            }
+
+
+
         $(document).ready(function(){
                 if(hasGetUserMedia()) {
                     // Good to go!\
                    // alert("getUserMedia() is supported!! Woohoo!")
-                    console.log("getUserMedia() is supported on this device!");
+
                 } else {
                     alert('Camera access is not supported by your browser');
                 }
