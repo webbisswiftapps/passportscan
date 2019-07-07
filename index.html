@@ -78,6 +78,7 @@
                 // Grab elements, create settings, etc.
         var video = document.getElementById('video');
         var canvas = document.getElementById('canvas');
+        var imgCapture;
         const constraints = {
             video: { facingMode: 'environment' }            
         }
@@ -91,7 +92,6 @@
                 imgCapture = new ImageCapture(mediaStreamTrack);
                 video.srcObject = stream;
                 video.play();
-                setTimeout(startCapturingFrames, 3000);              
             });
         }
 
@@ -100,6 +100,22 @@
         //var context = canvas.getContext('2d');
         var video = document.getElementById('video');
     
+        
+        document.getElementById('snap').on('click', function(){
+            
+            imgCapture.grabFrame()
+            .then(function(bitmap){
+               console.log('Grabbed frame:', imageBitmap);
+                canvas.width = imageBitmap.width;
+                canvas.height = imageBitmap.height;
+                canvas.getContext('2d').drawImage(imageBitmap, 0, 0);
+                //canvas.classList.remove('hidden');
+                
+            }).catch(function(error){
+               console.log('grabFrame() error: ', error);
+            });
+            
+        });
 
         // Process Image
         function processImage(convertedImg)
