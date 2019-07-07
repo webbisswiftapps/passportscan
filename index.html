@@ -47,24 +47,25 @@
 
         <p id="results"><table class="w3-table w3-striped">
             <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Points</th>
+            <th>Field</th>
+            <th>Data</th>
             </tr>
             <tr>
-            <td>Jill</td>
-            <td>Smith</td>
-            <td>50</td>
+            <td>Document Type</td>
+            <td id="dtype"></td>
             </tr>
             <tr>
-            <td>Eve</td>
-            <td>Jackson</td>
-            <td>94</td>
+            <td>Name</td>
+            <td id="pname"></td>
             </tr>
             <tr>
-            <td>Adam</td>
-            <td>Johnson</td>
-            <td>67</td>
+            <td>Surname</td>
+            <td id="psname"></td>
+            </tr>
+
+            <tr>
+            <td>Document#</td>
+            <td id="pdn"></td>
             </tr>
         </table>
         </p>
@@ -129,6 +130,14 @@
                         $("#results").show();
                         $("#success").show();
                         $("#success").text('Success! Found: '+data.message);
+                        
+                        // Now write data
+                        const dx = data.data[0];
+                        $("#dtype").text(dx.document_type);
+                        $("#pname).text(dx.given_names);
+                        $("#psname").text(dx.surname);
+                        $("#pdn").text(dx.document_no);
+                        
                     }else{
                         $("#error").show();
                         $("#results").hide();
